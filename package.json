@@ -31,8 +31,8 @@
   ],
   "homepage": "https://github.com/fiahfy/rle",
   "keywords": [
-    "rle",
-    "encoding"
+    "encoding",
+    "rle"
   ],
   "license": "MIT",
   "main": "dist/index.js",
