@@ -22,68 +22,32 @@ const bufferToHex = (buf) => {
 
 describe('encode', () => {
   test('should work', () => {
-    let buf, encoded, hex
-
-    buf = hexToBuffer('12 12 12 12 12 13 13 13 13 13 13 13 13 13 12 12 12')
-    encoded = encode(buf)
-    hex = bufferToHex(encoded)
-    expect(hex).toBe('05 12 09 13 03 12')
-
-    buf = hexToBuffer('12 13 14 15 15 15 15')
-    encoded = encode(buf)
-    hex = bufferToHex(encoded)
-    expect(hex).toBe('01 12 01 13 01 14 04 15')
-  })
-
-  test('should work with PackBits', () => {
-    let buf, encoded, hex
-
-    buf = hexToBuffer('AA AA AA 80 00 2A AA AA AA AA 80 00 2A 22 AA AA AA AA AA AA AA AA AA AA')
-    encoded = encode(buf, { algorithm: 'pack-bits' })
-    hex = bufferToHex(encoded)
+    let buf = hexToBuffer('AA AA AA 80 00 2A AA AA AA AA 80 00 2A 22 AA AA AA AA AA AA AA AA AA AA')
+    let encoded = encode(buf)
+    let hex = bufferToHex(encoded)
     expect(hex).toBe('FE AA 02 80 00 2A FD AA 03 80 00 2A 22 F7 AA')
   })
 
-  // test('should work with icns PackBits', () => {
-  //   let buf, encoded, hex
-
-  //   buf = hexToBuffer('01 02 02 03 03 03 04 04 04 04 05 05 05 05 05')
-  //   encoded = encode(buf, { algorithm: 'icns-pack-bits' })
-  //   hex = bufferToHex(encoded)
-  //   expect(hex).toBe('02 01 02 02 80 03 81 04 82 05')
-  // })
+  test('should work for ICNS', () => {
+    let buf = hexToBuffer('01 02 02 03 03 03 04 04 04 04 05 05 05 05 05')
+    let encoded = encode(buf, { icns: true })
+    let hex = bufferToHex(encoded)
+    expect(hex).toBe('02 01 02 02 80 03 81 04 82 05')
+  })
 })
 
 describe('decode', () => {
   test('should work', () => {
-    let buf, decoded, hex
-
-    buf = hexToBuffer('05 12 09 13 03 12')
-    decoded = decode(buf)
-    hex = bufferToHex(decoded)
-    expect(hex).toBe('12 12 12 12 12 13 13 13 13 13 13 13 13 13 12 12 12')
-
-    buf = hexToBuffer('01 12 01 13 01 14 04 15')
-    decoded = decode(buf)
-    hex = bufferToHex(decoded)
-    expect(hex).toBe('12 13 14 15 15 15 15')
-  })
-
-  test('should work with PackBits', () => {
-    let buf, decoded, hex
-
-    buf = hexToBuffer('FE AA 02 80 00 2A FD AA 03 80 00 2A 22 F7 AA')
-    decoded = decode(buf, { algorithm: 'pack-bits' })
-    hex = bufferToHex(decoded)
+    let buf = hexToBuffer('FE AA 02 80 00 2A FD AA 03 80 00 2A 22 F7 AA')
+    let decoded = decode(buf)
+    let hex = bufferToHex(decoded)
     expect(hex).toBe('AA AA AA 80 00 2A AA AA AA AA 80 00 2A 22 AA AA AA AA AA AA AA AA AA AA')
   })
 
-  test('should work with icns PackBits', () => {
-    let buf, decoded, hex
-
-    buf = hexToBuffer('02 01 02 02 80 03 81 04 82 05')
-    decoded = decode(buf, { algorithm: 'icns-pack-bits' })
-    hex = bufferToHex(decoded)
+  test('should work for ICNS', () => {
+    let buf = hexToBuffer('02 01 02 02 80 03 81 04 82 05')
+    let decoded = decode(buf, { icns: true })
+    let hex = bufferToHex(decoded)
     expect(hex).toBe('01 02 02 03 03 03 04 04 04 04 05 05 05 05 05')
   })
 })

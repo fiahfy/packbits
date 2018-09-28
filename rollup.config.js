@@ -9,10 +9,6 @@ export default {
   }, {
     file: pkg.module,
     format: 'esm'
-  }, {
-    file: pkg.unpkg,
-    format: 'umd',
-    name: 'RLE'
   }],
   plugins: [
     babel({

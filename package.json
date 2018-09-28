@@ -1,6 +1,6 @@
 {
-  "name": "@fiahfy/rle",
-  "description": "Run-length encoding (RLE) implementation in JavaScript",
+  "name": "@fiahfy/packbits",
+  "description": "PackBits implementation in JavaScript",
   "version": "0.0.1",
   "author": {
     "name": "fiahfy",
@@ -8,7 +8,7 @@
     "url": "http://fiahfy.blogspot.com/"
   },
   "bugs": {
-    "url": "https://github.com/fiahfy/rle/issues"
+    "url": "https://github.com/fiahfy/packbits/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -29,17 +29,17 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/fiahfy/rle",
+  "homepage": "https://github.com/fiahfy/packbits",
   "keywords": [
     "encoding",
-    "rle"
+    "packbits"
   ],
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fiahfy/rle.git"
+    "url": "git+https://github.com/fiahfy/packbits.git"
   },
   "scripts": {
     "build": "rollup -c",
@@ -47,6 +47,5 @@
     "lint": "eslint -f codeframe --ignore-path .gitignore .",
     "prepare": "npm run test && npm run build",
     "test": "npm run lint && jest"
-  },
-  "unpkg": "dist/index.umd.js"
+  }
 }
