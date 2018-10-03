@@ -22,7 +22,9 @@ const bufferToHex = (buf) => {
 
 describe('encode', () => {
   test('should work', () => {
-    const buf = hexToBuffer('AA AA AA 80 00 2A AA AA AA AA 80 00 2A 22 AA AA AA AA AA AA AA AA AA AA')
+    const buf = hexToBuffer(
+      'AA AA AA 80 00 2A AA AA AA AA 80 00 2A 22 AA AA AA AA AA AA AA AA AA AA'
+    )
     const encoded = encode(buf)
     const hex = bufferToHex(encoded)
     expect(hex).toBe('FE AA 02 80 00 2A FD AA 03 80 00 2A 22 F7 AA')
@@ -41,7 +43,9 @@ describe('decode', () => {
     const buf = hexToBuffer('FE AA 02 80 00 2A FD AA 03 80 00 2A 22 F7 AA')
     const decoded = decode(buf)
     const hex = bufferToHex(decoded)
-    expect(hex).toBe('AA AA AA 80 00 2A AA AA AA AA 80 00 2A 22 AA AA AA AA AA AA AA AA AA AA')
+    expect(hex).toBe(
+      'AA AA AA 80 00 2A AA AA AA AA 80 00 2A 22 AA AA AA AA AA AA AA AA AA AA'
+    )
   })
 
   test('should work for ICNS', () => {
