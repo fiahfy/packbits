@@ -7,7 +7,6 @@ export const encode = (buffer) => {
     if (i + 2 >= buffer.length) {
       const buf = Buffer.alloc(1)
       buf[0] = buffer.length - i
-      buf[1] = byte
       bufs.push(buf)
       bufs.push(buffer.slice(i, buffer.length))
       break
