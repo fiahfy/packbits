@@ -2,10 +2,12 @@
 
 > [PackBits](https://en.wikipedia.org/wiki/PackBits) implementation in JavaScript.
 
+
 ## Installation
 ```
 npm install @fiahfy/packbits
 ```
+
 
 ## Usage
 
@@ -26,6 +28,7 @@ console.log(buf) // <Buffer 00 aa ff bb fe cc fd dd>
 const decoded = decode(buf)
 console.log(decoded) // <Buffer aa bb bb cc cc cc dd dd dd dd>
 ```
+
 
 ## ICNS support
 In [Apple Icon Image format](https://en.wikipedia.org/wiki/Apple_Icon_Image_format), pixel data are often compressed (per channel) with a format similar to PackBits.
