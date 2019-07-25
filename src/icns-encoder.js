@@ -4,9 +4,9 @@ export const encode = (buffer) => {
   let i = 0
   while (i < buffer.length) {
     const byte = buffer[i]
+    // if last 1 or 2 bytes remaining
     if (i + 2 >= buffer.length) {
-      const buf = Buffer.alloc(1)
-      buf[0] = buffer.length - i
+      const buf = Buffer.from([buffer.length - i])
       bufs.push(buf)
       bufs.push(buffer.slice(i, buffer.length))
       break
@@ -19,9 +19,7 @@ export const encode = (buffer) => {
       while (++j < buffer.length && byte === buffer[j] && length < 130) {
         length++
       }
-      const buf = Buffer.alloc(2)
-      buf[0] = length + 128 - 3
-      buf[1] = byte
+      const buf = Buffer.from([length + 128 - 3, byte])
       bufs.push(buf)
       i = j
     } else {
@@ -44,18 +42,14 @@ export const encode = (buffer) => {
         j -= 2
         length -= 2
       }
-      const buf = Buffer.alloc(1)
-      buf[0] = length - 1
+      const buf = Buffer.from([length - 1])
       bufs.push(buf)
       bufs.push(buffer.slice(i, j))
       i = j
     }
   }
 
-  const list = bufs
-  const totalLength = bufs.reduce((carry, buf) => carry + buf.length, 0)
-
-  return Buffer.concat(list, totalLength)
+  return Buffer.concat(bufs)
 }
 
 export const decode = (buffer) => {
@@ -78,8 +72,5 @@ export const decode = (buffer) => {
     bufs.push(buf)
   }
 
-  const list = bufs
-  const totalLength = bufs.reduce((carry, buf) => carry + buf.length, 0)
-
-  return Buffer.concat(list, totalLength)
+  return Buffer.concat(bufs)
 }
