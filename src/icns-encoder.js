@@ -4,10 +4,10 @@ export const encode = (buffer) => {
   let i = 0
   while (i < buffer.length) {
     const byte = buffer[i]
+    // if last 1 or 2 bytes remaining
     if (i + 2 >= buffer.length) {
-      const buf = Buffer.alloc(1)
-      buf[0] = buffer.length - i
-      buf[1] = byte
+      const length = buffer.length - i
+      const buf = Buffer.from([length - 1])
       bufs.push(buf)
       bufs.push(buffer.slice(i, buffer.length))
       break
@@ -15,17 +15,17 @@ export const encode = (buffer) => {
 
     const repeat = byte === buffer[i + 1] && byte === buffer[i + 2]
     if (repeat) {
+      // literal repeated
       let j = i + 2
       let length = 3
       while (++j < buffer.length && byte === buffer[j] && length < 130) {
         length++
       }
-      const buf = Buffer.alloc(2)
-      buf[0] = length + 128 - 3
-      buf[1] = byte
+      const buf = Buffer.from([length + 125, byte])
       bufs.push(buf)
       i = j
     } else {
+      // no literal repeated
       let j = i + 2
       let length = 3
       let prev = buffer[j]
@@ -45,18 +45,14 @@ export const encode = (buffer) => {
         j -= 2
         length -= 2
       }
-      const buf = Buffer.alloc(1)
-      buf[0] = length - 1
+      const buf = Buffer.from([length - 1])
       bufs.push(buf)
       bufs.push(buffer.slice(i, j))
       i = j
     }
   }
 
-  const list = bufs
-  const totalLength = bufs.reduce((carry, buf) => carry + buf.length, 0)
-
-  return Buffer.concat(list, totalLength)
+  return Buffer.concat(bufs)
 }
 
 export const decode = (buffer) => {
@@ -64,23 +60,28 @@ export const decode = (buffer) => {
 
   let i = 0
   while (i < buffer.length) {
-    let length = buffer[i]
+    let byte = buffer[i]
+
+    // 256 -> skip
+    if (byte === 256) {
+      i++
+      continue
+    }
 
     let buf
-    if (length >= 128) {
-      length = length - 128 + 3
+    if (byte >= 128) {
+      // 128 to 255 -> one byte of data repeated (byte - 125) times
+      const length = byte - 125
       buf = Buffer.alloc(length, buffer.slice(i + 1, i + 2))
       i += 2
     } else {
-      buf = buffer.slice(i + 1, i + length + 2)
-      i += length + 2
+      // 0 to 127 -> (byte + 1) literal bytes
+      const length = byte + 1
+      buf = buffer.slice(i + 1, i + 1 + length)
+      i += 1 + length
     }
-
     bufs.push(buf)
   }
 
-  const list = bufs
-  const totalLength = bufs.reduce((carry, buf) => carry + buf.length, 0)
-
-  return Buffer.concat(list, totalLength)
+  return Buffer.concat(bufs)
 }

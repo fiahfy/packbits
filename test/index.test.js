@@ -1,57 +1,81 @@
 import { encode, decode } from '../src'
 
-const hexToBuffer = (str) => {
-  const hex = str.split(' ')
-  const buf = Buffer.alloc(hex.length)
-  hex.forEach((hex, i) => {
-    buf.writeUInt8(parseInt(hex, 16), i)
-  })
-  return buf
-}
+/* eslint-disable prettier/prettier */
+const encodeMaps = [
+  [
+    [0xAA, 0xAA, 0xAA, 0xBB, 0xCC, 0xDD, 0xAA, 0xAA, 0xAA, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA],
+    [0xFE, 0xAA, 0x02, 0xBB, 0xCC, 0xDD, 0xFD, 0xAA, 0x03, 0xBB, 0xCC, 0xDD, 0xEE, 0xF7, 0xAA]
+  ],
+  [
+    [0xAA],
+    [0x00, 0xAA]
+  ],
+  [
+    [0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA],
+    [0xF9, 0xAA]
+  ],
+  [
+    [0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xBB],
+    [0xF9, 0xAA, 0x00, 0xBB]
+  ],
+  [
+    [0xA0, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8],
+    [0x07, 0xA0, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8]
+  ],
+  [
+    [0xA0, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA8],
+    [0x06, 0xA0, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xFF, 0xA8]
+  ]
+]
 
-const bufferToHex = (buf) => {
-  const str = []
-  let pos = 0
-  while (pos < buf.length) {
-    const hex = ('00' + buf.readUInt8(pos).toString(16)).slice(-2).toUpperCase()
-    str.push(hex)
-    pos++
-  }
-  return str.join(' ')
-}
+const icnsEncodeMaps = [
+  [
+    [0xAA, 0xBB, 0xBB, 0xCC, 0xCC, 0xCC, 0xDD, 0xDD, 0xDD, 0xDD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
+    [0x02, 0xAA, 0xBB, 0xBB, 0x80, 0xCC, 0x81, 0xDD, 0x82, 0xFF]
+  ],
+  [
+    [0xAA, 0xAA],
+    [0x01, 0xAA, 0xAA]
+  ]
+]
+/* eslint-enable prettier/prettier */
 
 describe('encode', () => {
   test('should work', () => {
-    const buf = hexToBuffer(
-      'AA AA AA 80 00 2A AA AA AA AA 80 00 2A 22 AA AA AA AA AA AA AA AA AA AA'
-    )
-    const encoded = encode(buf)
-    const hex = bufferToHex(encoded)
-    expect(hex).toBe('FE AA 02 80 00 2A FD AA 03 80 00 2A 22 F7 AA')
+    for (let [src, enc] of encodeMaps) {
+      const buf = Buffer.from(src)
+      const encoded = encode(buf)
+      const arr = Array.from(encoded)
+      expect(arr).toEqual(enc)
+    }
   })
 
   test('should work for ICNS', () => {
-    const buf = hexToBuffer('01 02 02 03 03 03 04 04 04 04 05 05 05 05 05')
-    const encoded = encode(buf, { icns: true })
-    const hex = bufferToHex(encoded)
-    expect(hex).toBe('02 01 02 02 80 03 81 04 82 05')
+    for (let [src, enc] of icnsEncodeMaps) {
+      const buf = Buffer.from(src)
+      const encoded = encode(buf, { format: 'icns' })
+      const arr = Array.from(encoded)
+      expect(arr).toEqual(enc)
+    }
   })
 })
 
 describe('decode', () => {
   test('should work', () => {
-    const buf = hexToBuffer('FE AA 02 80 00 2A FD AA 03 80 00 2A 22 F7 AA')
-    const decoded = decode(buf)
-    const hex = bufferToHex(decoded)
-    expect(hex).toBe(
-      'AA AA AA 80 00 2A AA AA AA AA 80 00 2A 22 AA AA AA AA AA AA AA AA AA AA'
-    )
+    for (let [src, enc] of encodeMaps) {
+      const buf = Buffer.from(enc)
+      const decoded = decode(buf)
+      const arr = Array.from(decoded)
+      expect(arr).toEqual(src)
+    }
   })
 
   test('should work for ICNS', () => {
-    const buf = hexToBuffer('02 01 02 02 80 03 81 04 82 05')
-    const decoded = decode(buf, { icns: true })
-    const hex = bufferToHex(decoded)
-    expect(hex).toBe('01 02 02 03 03 03 04 04 04 04 05 05 05 05 05')
+    for (let [src, enc] of icnsEncodeMaps) {
+      const buf = Buffer.from(enc)
+      const decoded = decode(buf, { format: 'icns' })
+      const arr = Array.from(decoded)
+      expect(arr).toEqual(src)
+    }
   })
 })
