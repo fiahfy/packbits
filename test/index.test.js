@@ -53,7 +53,7 @@ describe('encode', () => {
   test('should work for ICNS', () => {
     for (let [src, enc] of icnsEncodeMaps) {
       const buf = Buffer.from(src)
-      const encoded = encode(buf, { icns: true })
+      const encoded = encode(buf, { format: 'icns' })
       const arr = Array.from(encoded)
       expect(arr).toEqual(enc)
     }
@@ -73,7 +73,7 @@ describe('decode', () => {
   test('should work for ICNS', () => {
     for (let [src, enc] of icnsEncodeMaps) {
       const buf = Buffer.from(enc)
-      const decoded = decode(buf, { icns: true })
+      const decoded = decode(buf, { format: 'icns' })
       const arr = Array.from(decoded)
       expect(arr).toEqual(src)
     }

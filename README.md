@@ -38,7 +38,7 @@ In [Apple Icon Image format](https://en.wikipedia.org/wiki/Apple_Icon_Image_form
 import { encode } from '@fiahfy/packbits'
 
 console.log(buf) // <Buffer aa bb bb cc cc cc dd dd dd dd>
-const encoded = encode(buf, { icns: true })
+const encoded = encode(buf, { format: 'icns' })
 console.log(encoded) // <Buffer 02 aa bb bb 80 cc 81 dd>
 ```
 
@@ -47,6 +47,6 @@ console.log(encoded) // <Buffer 02 aa bb bb 80 cc 81 dd>
 import { decode } from '@fiahfy/packbits'
 
 console.log(buf) // <Buffer 02 aa bb bb 80 cc 81 dd>
-const decoded = decode(buf, { icns: true })
+const decoded = decode(buf, { format: 'icns' })
 console.log(decoded) // <Buffer aa bb bb cc cc cc dd dd dd dd>
 ```
