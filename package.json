@@ -34,6 +34,9 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fiahfy/packbits.git"
