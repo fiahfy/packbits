@@ -1,4 +1,4 @@
-export const encode = (buffer) => {
+export const encode = (buffer: Buffer): Buffer => {
   const bufs = []
 
   let i = 0
@@ -48,12 +48,12 @@ export const encode = (buffer) => {
   return Buffer.concat(bufs)
 }
 
-export const decode = (buffer) => {
+export const decode = (buffer: Buffer): Buffer => {
   const bufs = []
 
   let i = 0
   while (i < buffer.length) {
-    let byte = buffer.readInt8(i)
+    const byte = buffer.readInt8(i)
 
     // -128 -> skip
     if (byte === -128) {
