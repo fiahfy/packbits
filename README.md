@@ -1,4 +1,4 @@
-# @fiahfy/packbits
+# packbits
 
 ![badge](https://github.com/fiahfy/packbits/workflows/Node.js%20Package/badge.svg)
 
