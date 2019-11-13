@@ -1,9 +1,12 @@
 import * as Encoder from './encoder'
 import * as ICNSEncoder from './icns-encoder'
 
+export type PackBitsOptions = { format?: Format }
+export type Format = 'default' | 'icns'
+
 export const encode = (
   buf: Buffer,
-  options: { format?: string } = { format: 'default' }
+  options: PackBitsOptions = { format: 'default' }
 ): Buffer => {
   return options.format === 'icns'
     ? ICNSEncoder.encode(buf)
@@ -12,7 +15,7 @@ export const encode = (
 
 export const decode = (
   buf: Buffer,
-  options: { format?: string } = { format: 'default' }
+  options: PackBitsOptions = { format: 'default' }
 ): Buffer => {
   return options.format === 'icns'
     ? ICNSEncoder.decode(buf)
