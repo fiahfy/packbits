@@ -41,7 +41,7 @@ const icnsEncodeMaps = [
 /* eslint-enable prettier/prettier */
 
 describe('encode', () => {
-  test('should work', () => {
+  it('should work', () => {
     for (const [src, enc] of encodeMaps) {
       const buf = Buffer.from(src)
       const encoded = encode(buf)
@@ -50,7 +50,7 @@ describe('encode', () => {
     }
   })
 
-  test('should work for ICNS', () => {
+  it('should work for ICNS', () => {
     for (const [src, enc] of icnsEncodeMaps) {
       const buf = Buffer.from(src)
       const encoded = encode(buf, { format: 'icns' })
@@ -61,7 +61,7 @@ describe('encode', () => {
 })
 
 describe('decode', () => {
-  test('should work', () => {
+  it('should work', () => {
     for (const [src, enc] of encodeMaps) {
       const buf = Buffer.from(enc)
       const decoded = decode(buf)
@@ -70,7 +70,7 @@ describe('decode', () => {
     }
   })
 
-  test('should work for ICNS', () => {
+  it('should work for ICNS', () => {
     for (const [src, enc] of icnsEncodeMaps) {
       const buf = Buffer.from(enc)
       const decoded = decode(buf, { format: 'icns' })

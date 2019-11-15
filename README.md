@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD024 -->
 # packbits
 
 ![badge](https://github.com/fiahfy/packbits/workflows/Node.js%20Package/badge.svg)
@@ -38,7 +39,7 @@ console.log(decoded) // <Buffer aa bb bb cc cc cc dd dd dd dd>
 
 In [Apple Icon Image format](https://en.wikipedia.org/wiki/Apple_Icon_Image_format), pixel data are often compressed (per channel) with a format similar to PackBits.
 
-#### Encoding for ICNS
+#### Encoding
 
 ```js
 import { encode } from '@fiahfy/packbits'
@@ -48,7 +49,7 @@ const encoded = encode(buf, { format: 'icns' })
 console.log(encoded) // <Buffer 02 aa bb bb 80 cc 81 dd>
 ```
 
-#### Decoding for ICNS
+#### Decoding
 
 ```js
 import { decode } from '@fiahfy/packbits'
