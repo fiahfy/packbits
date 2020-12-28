@@ -1,7 +1,7 @@
 {
   "name": "@fiahfy/packbits",
   "description": "PackBits implementation in JavaScript",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": {
     "name": "fiahfy",
     "email": "d.fiahfy@gmail.com",
